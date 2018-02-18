@@ -27,7 +27,7 @@ if [ -z "$running" ]; then
        TIME="SBBS Down, Restarting: `date +"%A, %B %d - %r"`"
        echo $TIME >>$SBBSDIR/SBBSScreen.log
        cd $SBBSDIR
-       screen -fa -S SBBS -d -U -m sbbs
+       screen -fa -S SBBS -d -U -m /sbbs/exec/sbbs
     fi
 fi
        sleep 600
