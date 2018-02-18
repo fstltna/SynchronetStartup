@@ -7,9 +7,10 @@ Official support sites: [Official Github Repo](https://github.com/fstltna/Synchr
 ---
 These start up the Synchronet BBS server at boot time with a "screen" process.
 
-1. Copy synchronetbbs into /etc/init.d
-2. Copy startsynchronetbbs into /sbbs
-3. Run "**/etc/init.d/synchronetbbs start**"
+1. Copy **synchronetbbs** into **/etc/init.d** - make sure it is executable
+2. Copy **startsynchronetbbs** into **/sbbs** - make sure it is executable
+3. Run "**systemctl enable synchronetbbs**" (only needed once, will stick)
+4. Run "**systemctl start synchronetbbs**" - starts sbbs without restarting the server
 
 When you want to view the SBBS console, just enter "**screen -r**" in your shell.
 

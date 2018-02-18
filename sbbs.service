@@ -1,10 +1,17 @@
 [Unit]
+Short-Description=Synchronet BBS service 1.0
 Description=Synchronet BBS service 1.0
-Documentation=man:sbbs
+Documentation=https://synchronetbbs.org/index.php/forum/alternate-startup-scripts
 After=syslog.target network.target
+Required-Start=$local_fs $remote_fs $network $syslog
+Required-Stop=$local_fs $remote_fs $network $syslog
+#Provides=synchronetbbs
+Default-Start=2 3 4 5
+Default-Stop=0 1 6
 
 [Service]
 Type=forking
+PIDFile=/var/run/sbbs.pid
 Environment=SBBSROOT=/sbbs SBBSCTRL=/sbbs/ctrl
 User=ftn
 Group=ftn
@@ -14,6 +21,7 @@ ExecStart=/sbbs/startsynchronetbbs
 ExecReload=/bin/killall sbbs
 Restart=on-failure
 RestartSec=30
+X-Interactive=false
 
 [Install]
 WantedBy=multi-user.target
