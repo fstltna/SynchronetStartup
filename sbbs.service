@@ -1,0 +1,19 @@
+[Unit]
+Description=Synchronet BBS service 1.0
+Documentation=man:sbbs
+After=syslog.target network.target
+
+[Service]
+Type=forking
+Environment=SBBSROOT=/sbbs SBBSCTRL=/sbbs/ctrl
+User=ftn
+Group=ftn
+PermissionsStartOnly=true
+ExecStartPre=/sbin/setcap 'cap_net_bind_service=+ep' /sbbs/src/sbbs3/gcc.linux.x64.exe.release/sbbs
+ExecStart=/sbbs/startsynchronetbbs
+ExecReload=/bin/killall sbbs
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
