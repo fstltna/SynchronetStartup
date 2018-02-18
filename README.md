@@ -1,6 +1,9 @@
 # Synchronet Startup Scripts
 Alternate startup scripts for the Synchronet BBS software - uses the "screen" command to manage session. This also restarts the BBS process if it crashes.
 
+Official support sites: [Official Github Repo](https://github.com/fstltna/SynchronetStartup) - [Official Forum](https://synchronetbbs.org/index.php/forum/alternate-startup-scripts) 
+![Synchronet Logo](https://SynchronetBBS.org/SynchronetLogo.png) 
+
 ---
 These start up the Synchronet BBS server at boot time with a "screen" process.
 
