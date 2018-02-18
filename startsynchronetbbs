@@ -15,6 +15,9 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 export SBBSDIR=/sbbs
+export SBBSCTRL=$SBBSDIR/ctrl
+export PATH=$SBBSDIR/exec:$PATH
+export TERM=xterm-256color
 
 while :
 do
@@ -27,7 +30,7 @@ if [ -z "$running" ]; then
        TIME="SBBS Down, Restarting: `date +"%A, %B %d - %r"`"
        echo $TIME >>$SBBSDIR/SBBSScreen.log
        cd $SBBSDIR
-       screen -fa -S SBBS -d -U -m /sbbs/exec/sbbs
+       screen -fa -S SBBS -d -U -m sbbs
     fi
 fi
        sleep 600
