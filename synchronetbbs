@@ -46,7 +46,6 @@ stop)		echo "Stopping SBBS process... "
 		;;
 restart)        $0 stop
 		rm "$SBBSDIR/nostart"
-		#killall --user $USER sleep
                 ;;
 status)		running=`ps ax|grep sbbs|grep -v grep`
 		if [ ! -z "$running" ]; then
