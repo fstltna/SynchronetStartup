@@ -23,30 +23,68 @@ my $SCREENCMD = "/usr/bin/screen";
 my $pidnum = "";
 my $startpath = $ENV{'PATH'};
 my $newpath = "$SBBSDIR/exec:$startpath";
+my $exists = "";
 
 # Set ENV vars
 $ENV{'PATH'} = $newpath;
 $ENV{'SBBSCTRL'} = "$SBBSDIR/ctrl";
 $ENV{'TERM'} = "xterm-256color";
 
+my $running="";
 # Get the SBBS process pid
-open(INPF, "<$PIDFILE") || die "Unable to open $PIDFILE for input";
+if (-f $PIDFILE)
 {
-        local $/;
-        $pidnum = <INPF>;
+        open(INPF, "<$PIDFILE") || die "Unable to open $PIDFILE for input";
+        {
+                local $/;
+                $pidnum = <INPF>;
+        }
+        close(INPF);
 }
-close(INPF);
+else
+{
+        $pidnum = "nofile";
+}
+
+# check if BBS process is running
+if ($pidnum ne "nofile")
+{
+	$exists = kill 0, $pidnum;
+	if ($exists)
+	{
+		print ("Startupscript already running...\n");
+		exit (0);
+	}
+}
 
 while (-1)
 {
+	# Get the SBBS process pid
+	if (-f $PIDFILE)
+	{
+        	open(INPF, "<$PIDFILE") || die "Unable to open $PIDFILE for input";
+        	{
+                	local $/;
+                	$pidnum = <INPF>;
+        	}
+        	close(INPF);
+	}
+	else
+	{
+        	$pidnum = "nofile";
+	}
+
 	chdir $SBBSDIR;
 	my $running="";
 	# check if BBS process is running
-	print "SBBS pid is '$pidnum'\n";
-	my $exists = kill 0, $pidnum;
-	if ($exists)
+	#print "SBBS pid is '$pidnum'\n";
+	if ($pidnum ne "nofile")
 	{
-		$running = "running";
+		$exists = kill 0, $pidnum;
+		if ($exists)
+		{
+			$running = "running";
+		}
 	}
 
 	if ($running ne "running")
