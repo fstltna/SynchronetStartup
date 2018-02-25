@@ -75,7 +75,7 @@ while (-1)
 	}
 
 	chdir $SBBSDIR;
-	my $running="";
+	$running="";
 	# check if BBS process is running
 	#print "SBBS pid is '$pidnum'\n";
 	if ($pidnum ne "nofile")
