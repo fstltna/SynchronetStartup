@@ -4,6 +4,8 @@ Alternate startup scripts for the Synchronet BBS software - uses the "screen" co
 Official support sites: [Official Github Repo](https://github.com/fstltna/SynchronetStartup) - [Official Forum](https://synchronetbbs.org/index.php/forum/alternate-startup-scripts) 
 ![Synchronet Logo](https://SynchronetBBS.org/SynchronetLogo.png) 
 
+[![Visit our IRC channel](https://kiwiirc.com/buttons/irc.synchro.net/SynchronetFans.png)](https://kiwiirc.com/client/irc.synchro.net/?nick=guest|?#SynchronetFans)
+
 ---
 These start up the Synchronet BBS server at boot time with a "screen" process.
 
