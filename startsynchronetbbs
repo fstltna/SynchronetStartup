@@ -104,7 +104,7 @@ while (-1)
 			system("$SCREENCMD -fa -S SBBS -d -U -m sbbs");
 		}
 	}
-	# Sleep for 5 minutes before checking again
-	sleep(300);
+	# Sleep for 1 minute before checking again
+	sleep(60);
 }
 exit(0);
