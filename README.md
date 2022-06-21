@@ -18,8 +18,6 @@ When you want to view the SBBS console, just enter "**screen -r**" in your shell
 
 To disconnect from the SBBS console just press **CTRL-A CTRL-D**. This will leave it running and you can reconnect to it again.
 
-I have only tested this on a Ubuntu 16.04 server...
-
 If you want to turn off the server respawning type "**touch /sbbs/nostart**". To reenable it type "**rm /sbbs/nostart**".
 
 ---
