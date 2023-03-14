@@ -29,40 +29,16 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 my $SBBSDIR = "/sbbs";
-my $PIDFILE = "/var/run/sbbs.pid";
-my $pidnum = "";
-
-# Get the SBBS process pid
-if (-f $PIDFILE)
-{
-	open(INPF, "<$PIDFILE") || die "Unable to open $PIDFILE for input";
-	{
-        	local $/;
-        	$pidnum = <INPF>;
-	}
-	close(INPF);
-}
-else
-{
-	$pidnum = "nofile";
-}
 
 my $Command = $ARGV[0];
 
-my $running="";
-# check if BBS process is running
-my $exists = "";
-if ($pidnum ne "nofile")
+my $running=`ps ax|grep sbbs|grep -v grep`;
+chop($running);
+$running = substr($running, -4);
+
+if ($Command eq "start")
 {
-	$exists = kill 0, $pidnum;
-	if ($exists)
-	{
-		$running = "running";
-	}
-}
-if (($Command eq "") || ($Command eq "start"))
-{
-	if ($running ne "running")
+	if ($running eq "")
 	{
 		print "Starting SBBS...\n";
 		if (-f "$SBBSDIR/nostart")
@@ -81,7 +57,7 @@ elsif ($Command eq "stop")
 	system("touch '$SBBSDIR/nostart'");
 	if ($running eq "running")
 	{
-		kill 'HUP', $pidnum;
+		system("killall sbbs");
 	}
 }
 elsif ($Command eq "restart")
@@ -91,14 +67,14 @@ elsif ($Command eq "restart")
 		print("Removing $SBBSDIR/nostart\n");
 		unlink("$SBBSDIR/nostart");
 	}
-	if ($running eq "running")
+	if ($running eq "sbbs")
 	{
-		kill 'HUP', $pidnum;
+		system("killall sbbs");
 	}
 }
 elsif ($Command eq "status")
 {
-	if ($running eq "running")
+	if ($running eq "sbbs")
 	{
 		print("SBBS Server Running\n");
 	}
