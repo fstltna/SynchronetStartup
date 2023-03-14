@@ -15,12 +15,10 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 my $SBBSDIR = "/sbbs";
-my $PIDFILE = "/var/run/sbbs.pid";
 my $SCREENCMD = "/usr/bin/screen";
 
 # No changes below here...
 
-my $pidnum = "";
 my $startpath = $ENV{'PATH'};
 my $newpath = "$SBBSDIR/exec:$startpath";
 my $exists = "";
@@ -30,64 +28,26 @@ $ENV{'PATH'} = $newpath;
 $ENV{'SBBSCTRL'} = "$SBBSDIR/ctrl";
 $ENV{'TERM'} = "xterm-256color";
 
-my $running="";
-# Get the SBBS process pid
-if (-f $PIDFILE)
-{
-        open(INPF, "<$PIDFILE") || die "Unable to open $PIDFILE for input";
-        {
-                local $/;
-                $pidnum = <INPF>;
-        }
-        close(INPF);
-}
-else
-{
-        $pidnum = "nofile";
-}
+my $running=`ps ax|grep sbbs|grep -v grep`;
+chop($running);
+$running = substr($running, -4);
 
 # check if BBS process is running
-if ($pidnum ne "nofile")
+if ($running eq "sbbs")
 {
-	$exists = kill 0, $pidnum;
-	if ($exists)
-	{
-		print ("Startupscript already running...\n");
-		exit (0);
-	}
+	print ("Startupscript already running...\n");
+	exit (0);
 }
 
 while (-1)
 {
-	# Get the SBBS process pid
-	if (-f $PIDFILE)
-	{
-        	open(INPF, "<$PIDFILE") || die "Unable to open $PIDFILE for input";
-        	{
-                	local $/;
-                	$pidnum = <INPF>;
-        	}
-        	close(INPF);
-	}
-	else
-	{
-        	$pidnum = "nofile";
-	}
-
 	chdir $SBBSDIR;
-	$running="";
-	# check if BBS process is running
-	#print "SBBS pid is '$pidnum'\n";
-	if ($pidnum ne "nofile")
-	{
-		$exists = kill 0, $pidnum;
-		if ($exists)
-		{
-			$running = "running";
-		}
-	}
+	$running=`ps ax|grep sbbs|grep -v grep`;
+	chop($running);
+	$running = substr($running, -4);
 
-	if ($running ne "running")
+	# check if BBS process is running
+	if ($running ne "sbbs")
 	{
 		print "SBBS not running\n";
 		# See if they want the server started
