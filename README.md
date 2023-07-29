@@ -1,4 +1,4 @@
-# Synchronet Startup Scripts (1.8)
+# Synchronet Startup Scripts (1.8.1)
 Alternate startup scripts for the Synchronet BBS software - uses the "screen" command to manage session. This also restarts the BBS process if it crashes.
 
 Official support sites: [Official Github Repo](https://github.com/fstltna/SynchronetStartup) - [Official Forum](https://synchronetbbs.org/index.php/forum/alternate-startup-scripts) 
@@ -13,6 +13,7 @@ These start up the Synchronet BBS server at boot time with a "screen" process.
 2. Copy **startsynchronetbbs** into **/sbbs** - make sure it is executable
 3. Run "**systemctl enable synchronetbbs**" (only needed once, will stick)
 4. Run "**systemctl start synchronetbbs**" - starts sbbs without restarting the server
+5. Run **./Update_Script** if you need to update the watchdog
 
 When you want to view the SBBS console, just enter "**screen -r**" in your shell.
 

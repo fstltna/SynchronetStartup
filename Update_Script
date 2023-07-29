@@ -1,3 +1,5 @@
 #!/bin/bash
-cp startsynchronetbbs /sbbs
+sudo cp startsynchronetbbs /sbbs
+sudo killall startsynchronetbbs
+sudo /etc/init.d/synchronet start
 exit

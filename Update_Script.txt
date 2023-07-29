@@ -1,0 +1,6 @@
+This script is to update the watchdog process on a running system. Your
+BBS should not need to be shut down or restarted after running it.
+
+To run it just do:
+./Update_Script
+
