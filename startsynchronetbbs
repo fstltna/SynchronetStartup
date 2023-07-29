@@ -49,7 +49,18 @@ while (-1)
 	# check if BBS process is running
 	if ($running ne "sbbs")
 	{
-		print "SBBS not running\n";
+		print "SBBS not running - waiting to check:\n";
+		sleep(5);
+		my $running2=`ps ax|grep sbbs|grep -v grep`;
+		chop($running2);
+		$running2 = substr($running2, -4);
+		if ($running2 eq "sbbs")
+		{
+			print "Was running again\n";
+			next;
+		}
+
+		print "Was still not running, checking for restart\n";
 		# See if they want the server started
 		if (! -f "$SBBSDIR/nostart")
 		{
