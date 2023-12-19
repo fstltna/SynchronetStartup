@@ -22,15 +22,43 @@ my $SCREENCMD = "/usr/bin/screen";
 my $startpath = $ENV{'PATH'};
 my $newpath = "$SBBSDIR/exec:$startpath";
 my $exists = "";
+my $PidFile = "/sbbs/ctrl/sbbs.pid";
 
 # Set ENV vars
 $ENV{'PATH'} = $newpath;
 $ENV{'SBBSCTRL'} = "$SBBSDIR/ctrl";
 $ENV{'TERM'} = "xterm-256color";
 
-my $running=`ps ax|grep sbbs|grep -v grep`;
-chop($running);
-$running = substr($running, -4);
+sub IsRunning
+{
+	if (! -f $PidFile)
+	{
+		print "PID file not found\n";
+		return("nope");
+	}
+	# PID file found, checking for process
+	open(my $fh, '<:encoding(UTF-8)', $PidFile);
+	if ($fh eq "")
+	{
+		print "Could not open file '$PidFile' for reading $!";
+		return("nope");
+	}
+	my $CurLine = 0;
+	while (my $row = <$fh>)
+	{
+		chomp $row;
+		print "Read pid file '$row'\n";
+		$CurLine = $row;
+	}
+	close($fh);
+	if (kill(0, $CurLine) != 1)
+	{
+		return "nope";
+	}
+	return "sbbs";
+}
+
+my $running=IsRunning();
 
 # check if BBS process is running
 if ($running eq "sbbs")
@@ -42,18 +70,14 @@ if ($running eq "sbbs")
 while (-1)
 {
 	chdir $SBBSDIR;
-	$running=`ps ax|grep sbbs|grep -v grep`;
-	chop($running);
-	$running = substr($running, -4);
+	$running=IsRunning();
 
 	# check if BBS process is running
 	if ($running ne "sbbs")
 	{
 		print "SBBS not running - waiting to check:\n";
-		sleep(60);
-		my $running2=`ps ax|grep sbbs|grep -v grep`;
-		chop($running2);
-		$running2 = substr($running2, -4);
+		sleep(10);
+		my $running2=IsRunning();
 		if ($running2 eq "sbbs")
 		{
 			print "Was running again\n";
