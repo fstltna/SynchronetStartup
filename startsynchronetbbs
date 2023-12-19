@@ -50,7 +50,7 @@ while (-1)
 	if ($running ne "sbbs")
 	{
 		print "SBBS not running - waiting to check:\n";
-		sleep(5);
+		sleep(60);
 		my $running2=`ps ax|grep sbbs|grep -v grep`;
 		chop($running2);
 		$running2 = substr($running2, -4);
