@@ -10,7 +10,7 @@
 # Description:       Synchronet BBS service 1.0
 # Documentation:     https://synchronetbbs.org/index.php/forum/alternate-startup-scripts
 # Type:              forking
-# PIDFile:           /var/run/sbbs.pid
+# PIDFile:           /sbbs/ctrl/sbbs.pid
 # X-Interactive:     false
 ### END INIT INFO
 
