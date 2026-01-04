@@ -29,16 +29,44 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 my $SBBSDIR = "/sbbs";
+my $PidFile = "/sbbs/ctrl/sbbs.pid";
 
 my $Command = $ARGV[0];
 
-my $running=`ps ax|grep sbbs|grep -v grep`;
-chop($running);
-$running = substr($running, -4);
+sub IsRunning
+{
+        if (! -f $PidFile)
+        {
+		#PrintDebugCommand("PID file not found\n");
+                return("nope");
+        }
+        # PID file found, checking for process
+        open(my $fh, '<:encoding(UTF-8)', $PidFile);
+        if ($fh eq "")
+        {
+		#PrintDebugCommand("Could not open file '$PidFile' for reading $!\n");
+                return("nope");
+        }
+        my $CurLine = 0;
+        while (my $row = <$fh>)
+        {
+		chomp $row;
+		#PrintDebugCommand("Read pid file '$row'\n");
+		$CurLine = $row;
+        }
+        close($fh);
+        if (kill(0, $CurLine) != 1)
+        {
+                return "nope";
+        }
+        return "sbbs";
+}
+
+my $running=IsRunning();
 
 if ($Command eq "start")
 {
-	if ($running eq "")
+	if ($running eq "nope")
 	{
 		print "Starting SBBS...\n";
 		if (-f "$SBBSDIR/nostart")
@@ -55,7 +83,7 @@ elsif ($Command eq "stop")
 {
 	print "Stopping SBBS process...\n";
 	system("touch '$SBBSDIR/nostart'");
-	if ($running eq "running")
+	if ($running eq "sbbs")
 	{
 		system("killall sbbs");
 	}
